@@ -7,6 +7,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.giphyservice.data.model.Gif
 import com.example.giphyservice.R
 
+// Adapter - оброблює дані і зв'язує зі списком
+//
 class GifsAdapter(
     var mListener: OnItemClickListener,
     val context: Context,
@@ -30,7 +32,6 @@ class GifsAdapter(
     }
 
     override fun getItemCount(): Int = gifs.size
-
 
     override fun onBindViewHolder(holder: GifViewHolder, position: Int) {
         val data = gifs[position]

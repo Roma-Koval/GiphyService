@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.giphyservice.R
 
-
 class SecondActivity : AppCompatActivity() {
     companion object {
         const val URL = "url"

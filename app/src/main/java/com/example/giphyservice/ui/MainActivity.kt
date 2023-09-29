@@ -10,7 +10,7 @@ import com.example.giphyservice.ui.list.GifsAdapter
 
 const val BASE_URL = "https://api.giphy.com/v1/"
 
-
+//the View observes changes in the ViewModel and updates its state accordingly
 class MainActivity : AppCompatActivity() {
     private var viewModel: MainViewModel = MainViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {

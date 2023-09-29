@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.giphyservice.data.model.Gif
 import com.example.giphyservice.data.repository.GifsRepository
+import com.example.giphyservice.data.repository.CustomCallback
 
 //The ViewModel retrieves data from the Model and exposes it to the View through observable properties or LiveData objects.
 // It also communicates with the Model to update data based on user actions
@@ -11,28 +12,22 @@ import com.example.giphyservice.data.repository.GifsRepository
 class MainViewModel : ViewModel() {
     var objectData = MutableLiveData<List<Gif>>()
     private val gifsRepository = GifsRepository()
-/*    val retrofit = Retrofit.Builder().baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-    val gifService = retrofit.create(GifService::class.java)*/
+    val error = MutableLiveData<Throwable?>()
+    val isLoading = MutableLiveData<Boolean>()
 
     fun loadData() {
-        objectData = gifsRepository.getGifsData(objectData)
-      /*  gifService
-            .getGifs()
-            .enqueue(object : Callback<DataResult?> {
-                override fun onResponse(call: Call<DataResult?>, response: Response<DataResult?>) {
-                    val body = response.body()
-                    if (body == null) {
-                        Log.d(TAG, "No response")
-                    } else {
-                        objectData.value = body.res
-                    }
-                }
+        isLoading.value = true
 
-                override fun onFailure(call: Call<DataResult?>, t: Throwable) {
-                    TODO("Not yet implemented")
-                }
-            })*/
+        gifsRepository.getGifsData(object : CustomCallback{
+            override fun onSuccess(gifs: List<Gif>) {
+                objectData.value = gifs
+                isLoading.value = false
+            }
+
+            override fun onError(error: Throwable?) {
+                isLoading.value = false
+                this@MainViewModel.error.value = error
+            }
+        })
     }
 }

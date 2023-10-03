@@ -1,7 +1,10 @@
 package com.example.giphyservice.data.repository
 
+import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import com.example.giphyservice.data.GifService
 import com.example.giphyservice.data.model.DataResult
+import com.example.giphyservice.data.model.Gif
 import com.example.giphyservice.ui.BASE_URL
 import retrofit2.Call
 import retrofit2.Callback
@@ -12,29 +15,28 @@ import retrofit2.converter.gson.GsonConverterFactory
 private const val TAG = "GifsRepository"
 
 class GifsRepository {
-    private val retrofit =
+    val retrofit =
         Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
             .build()
-    private val gifService: GifService = retrofit.create(GifService::class.java)
+    val gifService = retrofit.create(GifService::class.java)
 
-    fun getGifsData(customCallback: CustomCallback) {
-        gifService.getGifs().enqueue(object : Callback<DataResult?> {
-                override fun onResponse(call: Call<DataResult?>, response: Response<DataResult?>) {
-                    val body = response.body()
-                    if (response.isSuccessful) {
-                        if (body == null) {
-                            customCallback.onSuccess(listOf())
-                        } else {
-                            customCallback.onSuccess(body.res)
-                        }
-                    } else {
-                        customCallback.onError(null)
-                    }
+    fun getGifsData(objectData: MutableLiveData<List<Gif>>): MutableLiveData<List<Gif>> {
+        gifService
+            .getGifs()
+            .enqueue(object : Callback<DataResult?> {
+            override fun onResponse(call: Call<DataResult?>, response: Response<DataResult?>) {
+                val body = response.body()
+                if (body == null) {
+                    Log.d(TAG, "No response")
+                } else {
+                    objectData.value = body.res
                 }
+            }
 
             override fun onFailure(call: Call<DataResult?>, t: Throwable) {
-                customCallback.onError(t)
+                TODO("Not yet implemented")
             }
         })
+        return objectData
     }
 }

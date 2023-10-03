@@ -13,7 +13,7 @@ class GifsAdapter(
     var mListener: OnItemClickListener,
     val context: Context,
 ) : RecyclerView.Adapter<GifViewHolder>() {
-    private val gifs: MutableList<Gif> = mutableListOf()
+    val gifs: MutableList<Gif> = mutableListOf()
 
     fun updateGifs(gif: List<Gif>) {
         gifs.clear()

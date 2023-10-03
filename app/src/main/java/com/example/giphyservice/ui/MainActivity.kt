@@ -35,11 +35,7 @@ class MainActivity : AppCompatActivity() {
                 }
             })
 
-        errorButton.setOnClickListener(object : View.OnClickListener {
-            override fun onClick(v: View?) {
-                viewModel.loadData()
-            }
-        })
+        errorButton.setOnClickListener { viewModel.loadData() }
 
         viewModel.loadData()
 

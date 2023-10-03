@@ -2,7 +2,6 @@ package com.example.giphyservice.data.repository
 
 import com.example.giphyservice.data.GifService
 import com.example.giphyservice.data.model.DataResult
-import com.example.giphyservice.data.model.Gif
 import com.example.giphyservice.ui.BASE_URL
 import retrofit2.Call
 import retrofit2.Callback

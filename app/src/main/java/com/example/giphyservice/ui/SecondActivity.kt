@@ -13,7 +13,8 @@ class SecondActivity : AppCompatActivity() {
         const val URL = "url"
         fun start(context: Context, url: String?) {
             context.startActivity(
-                Intent(context, SecondActivity::class.java).putExtra(URL, url)
+                Intent(context, SecondActivity::class.java)
+                    .putExtra(URL, url)
             )
         }
     }

@@ -15,41 +15,41 @@
 
     <TextView
         android:id="@+id/textError"
-        android:layout_width="0dp"
+        android:layout_width="@dimen/textView_width"
         android:layout_height="wrap_content"
+        android:layout_marginHorizontal="@dimen/textView_marginHorizontal"
+        android:textAlignment="center"
+        android:textColor="@color/red"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/recyclerView"
-        android:layout_marginHorizontal="24dp"
-        android:textAlignment="center"
-        android:visibility="gone"
-        tools:visibility="visible"
         tools:text="@string/tools_Text_in_TextView"
-        android:textColor="@color/red"/>
+        tools:visibility="visible" />
 
     <Button
-        android:visibility="gone"
-        tools:visibility="visible"
         android:id="@+id/errorButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/button_marginTop"
         android:text="@string/try_again_button"
-        android:layout_marginTop="24dp"
+        android:visibility="gone"
         app:layout_constraintEnd_toEndOf="@+id/textError"
         app:layout_constraintStart_toStartOf="@+id/textError"
-        app:layout_constraintTop_toBottomOf="@+id/textError" />
+        app:layout_constraintTop_toBottomOf="@+id/textError"
+        tools:visibility="visible" />
 
     <ProgressBar
         android:id="@+id/progressBar"
-        android:visibility="gone"
-        tools:visibility="visible"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/recyclerView"
-        app:layout_constraintTop_toTopOf="@+id/recyclerView" />
+        app:layout_constraintTop_toTopOf="@+id/recyclerView"
+        tools:visibility="visible" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,31 +9,29 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val TAG = "GifsRepository"
-
 class GifsRepository {
     private val retrofit =
         Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
             .build()
     private val gifService: GifService = retrofit.create(GifService::class.java)
 
-    fun getGifsData(customCallback: CustomCallback) {
+    fun getGifsData(gifCallback: GifCallback) {
         gifService.getGifs().enqueue(object : Callback<DataResult?> {
                 override fun onResponse(call: Call<DataResult?>, response: Response<DataResult?>) {
                     val body = response.body()
                     if (response.isSuccessful) {
                         if (body == null) {
-                            customCallback.onSuccess(listOf())
+                            gifCallback.onSuccess(listOf())
                         } else {
-                            customCallback.onSuccess(body.res)
+                            gifCallback.onSuccess(body.res)
                         }
                     } else {
-                        customCallback.onError(null)
+                        gifCallback.onError(null)
                     }
                 }
 
             override fun onFailure(call: Call<DataResult?>, t: Throwable) {
-                customCallback.onError(t)
+                gifCallback.onError(t)
             }
         })
     }

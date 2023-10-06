@@ -1,26 +1,28 @@
 package com.example.giphyservice.ui
 
 import android.os.Bundle
-import android.view.View
 import android.widget.Button
 import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.giphyservice.R
 import com.example.giphyservice.data.model.Gif
 import com.example.giphyservice.ui.list.GifsAdapter
 
+
 const val BASE_URL = "https://api.giphy.com/v1/"
 
 //the View observes changes in the ViewModel and updates its state accordingly
 class MainActivity : AppCompatActivity() {
-    private var viewModel: MainViewModel = MainViewModel()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val viewModel: MainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         val textView: TextView = findViewById(R.id.textError)
 
@@ -45,19 +47,19 @@ class MainActivity : AppCompatActivity() {
             layoutManager = GridLayoutManager(this@MainActivity, 2)
         }
 
-        viewModel.objectData.observe(this) { gifs ->
+        viewModel.getObjectData().observe(this) { gifs ->
             gifsAdapter.updateGifs(gifs)
-            textView.visibility = View.GONE
-            errorButton.visibility = View.GONE
+            textView.isVisible = false
+            errorButton.isVisible = false
         }
 
-        viewModel.error.observe(this) { error ->
+        viewModel.getError().observe(this) { error ->
             textView.text = error?.message
-            textView.visibility = View.VISIBLE
-            errorButton.visibility = View.VISIBLE
+            textView.isVisible = true
+            errorButton.isVisible = true
         }
 
-        viewModel.isLoading.observe(this) { isLoading ->
+        viewModel.getIsLoading().observe(this) { isLoading ->
             progressBar.isVisible = isLoading
             textView.isVisible = false
         }

@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         val viewModel: MainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
-        val textView: TextView = findViewById(R.id.textError)
+        val textError: TextView = findViewById(R.id.textError)
 
         val progressBar: ProgressBar = findViewById(R.id.progressBar)
 
@@ -47,21 +47,26 @@ class MainActivity : AppCompatActivity() {
             layoutManager = GridLayoutManager(this@MainActivity, 2)
         }
 
-        viewModel.getObjectData().observe(this) { gifs ->
-            gifsAdapter.updateGifs(gifs)
-            textView.isVisible = false
-            errorButton.isVisible = false
+        viewModel.getObjectData().observe(this) { uiState ->
+            progressBar.isVisible = uiState is UIState.Loading
+            textError.isVisible = uiState is UIState.Error
+            errorButton.isVisible = uiState is UIState.Error
+            if (uiState is UIState.Success) {
+                gifsAdapter.updateGifs(uiState.gifs)
+            } else if (uiState is UIState.Error) {
+                textError.text = uiState.error?.message
+            }
         }
 
-        viewModel.getError().observe(this) { error ->
-            textView.text = error?.message
-            textView.isVisible = true
-            errorButton.isVisible = true
-        }
-
-        viewModel.getIsLoading().observe(this) { isLoading ->
-            progressBar.isVisible = isLoading
-            textView.isVisible = false
-        }
+//        viewModel.getError().observe(this) { error ->
+//            textView.text = error?.message
+//            textView.isVisible = true
+//            errorButton.isVisible = true
+//        }
+//
+//        viewModel.getIsLoading().observe(this) { isLoading ->
+//            progressBar.isVisible = isLoading
+//            textView.isVisible = false
+//        }
     }
 }

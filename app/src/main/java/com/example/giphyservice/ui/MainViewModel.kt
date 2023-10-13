@@ -1,5 +1,6 @@
 package com.example.giphyservice.ui
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.giphyservice.data.model.Gif
@@ -13,26 +14,26 @@ import com.example.giphyservice.data.repository.GifsRepository
 // The ViewModel exists from when you first request a ViewModel until the activity is finished and destroyed.
 
 class MainViewModel : ViewModel() {
+
     private val gifsRepository = GifsRepository()
-    private var objectData = MutableLiveData<List<Gif>>()
-    private val error = MutableLiveData<Throwable?>()
-    private val isLoading = MutableLiveData<Boolean>()
 
-    fun getObjectData() = objectData
-    fun getError() = error
-    fun getIsLoading() = isLoading
+    private val state = MutableLiveData<UIState>()
+    fun getObjectData(): LiveData<UIState> = state
+
     fun loadData() {
-        isLoading.value = true
-
+//        isLoading.value = true
+        state.value = UIState.Loading
         gifsRepository.getGifsData(object : GifCallback {
             override fun onSuccess(gifs: List<Gif>) {
-                objectData.value = gifs
-                isLoading.value = false
+//                objectData.value = gifs
+//                isLoading.value = false
+                state.value = UIState.Success(gifs)
             }
 
             override fun onError(error: Throwable?) {
-                isLoading.value = false
-                this@MainViewModel.error.value = error
+//                isLoading.value = false
+//                this@MainViewModel.error.value = error
+                state.value = UIState.Error(error)
             }
         })
     }

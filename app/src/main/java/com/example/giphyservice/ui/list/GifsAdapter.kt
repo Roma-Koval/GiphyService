@@ -1,17 +1,15 @@
 package com.example.giphyservice.ui.list
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.giphyservice.data.model.Gif
-import com.example.giphyservice.R
+import com.example.giphyservice.databinding.ItemLayoutBinding
 
 // Adapter - оброблює дані і зв'язує зі списком
 //
 class GifsAdapter(
     var mListener: OnItemClickListener,
-    val context: Context,
 ) : RecyclerView.Adapter<GifViewHolder>() {
     private val gifs: MutableList<Gif> = mutableListOf()
 
@@ -26,9 +24,9 @@ class GifsAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): GifViewHolder {
-        return GifViewHolder(
-            LayoutInflater.from(context).inflate(R.layout.item_layout, parent, false), mListener
-        )
+        val itemBinding =
+            ItemLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return GifViewHolder(itemBinding, mListener)
     }
 
     override fun getItemCount(): Int = gifs.size

@@ -2,7 +2,10 @@ package com.example.giphyservice.ui
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.fragment.app.add
+import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -28,7 +31,15 @@ class MainActivity : AppCompatActivity() {
 
         val gifsAdapter = GifsAdapter(mListener = object : GifsAdapter.OnItemClickListener {
             override fun onItemClick(gif: Gif) {
-                SecondActivity.start(this@MainActivity, gif.images.originalImage.url)
+//                SecondActivity.start(this@MainActivity, gif.images.originalImage.url)
+                val bundle = bundleOf("url" to gif.images.originalImage.url)
+                if (savedInstanceState == null) {
+                    supportFragmentManager.commit {
+                        setReorderingAllowed(true)
+                        add<DetailFragment>(mainBinding.fragmentContainerView.id, args = bundle)
+                        addToBackStack(null)
+                    }
+                }
             }
         })
 
@@ -36,6 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.loadData()
 
+//        TODO: add binding for recyclerView
         findViewById<RecyclerView>(R.id.recyclerView).apply {
             adapter = gifsAdapter
             setHasFixedSize(true)

@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.giphyservice.databinding.ActivitySecondBinding
 
+/*
 class SecondActivity : AppCompatActivity() {
     companion object {
         const val URL = "url"
@@ -28,4 +29,4 @@ class SecondActivity : AppCompatActivity() {
 
         Glide.with(this).load(url).into(secondBinding.imageView)
     }
-}
+}*/

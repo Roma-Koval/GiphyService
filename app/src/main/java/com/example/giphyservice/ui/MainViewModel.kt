@@ -20,19 +20,19 @@ class MainViewModel : ViewModel() {
     private val state = MutableLiveData<UIState>()
     fun getObjectData(): LiveData<UIState> = state
 
+    init {
+        loadData()
+    }
+
     fun loadData() {
-//        isLoading.value = true
         state.value = UIState.Loading
+
         gifsRepository.getGifsData(object : GifCallback {
             override fun onSuccess(gifs: List<Gif>) {
-//                objectData.value = gifs
-//                isLoading.value = false
                 state.value = UIState.Success(gifs)
             }
 
             override fun onError(error: Throwable?) {
-//                isLoading.value = false
-//                this@MainViewModel.error.value = error
                 state.value = UIState.Error(error)
             }
         })

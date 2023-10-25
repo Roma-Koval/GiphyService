@@ -1,15 +1,12 @@
 package com.example.giphyservice.ui
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
-import androidx.fragment.app.replace
-import androidx.fragment.app.setFragmentResult
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.giphyservice.R
@@ -19,53 +16,56 @@ import com.example.giphyservice.ui.list.GifsAdapter
 
 class MainFragment : Fragment() {
 
-    private var binding: FragmentMainBinding? = null
-    private val getBinding get() = binding!!
+    private var _binding: FragmentMainBinding? = null
+    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentMainBinding.inflate(inflater, container, false)
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
 
         val viewModel: MainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         val gifsAdapter = GifsAdapter(mListener = object : GifsAdapter.OnItemClickListener {
             override fun onItemClick(gif: Gif) {
-                setFragmentResult("requestKey", bundleOf("url" to gif.images.originalImage.url))
-
+                //fragment result is used for another cases:
+                //For example you want to open second fragment, perform some actions there and then return the result. In such cases fragment results is used.
+                //setFragmentResult("requestKey", bundleOf("url" to gif.images.originalImage.url))
+                val detailFragment = DetailFragment.newInstance(gif.images.originalImage.url)
                 parentFragmentManager.commit {
                     setReorderingAllowed(true)
-                    replace<DetailFragment>(R.id.fragmentContainerView)
+                    replace(R.id.fragmentContainerView, detailFragment)
                     addToBackStack("DetailFragment")
                 }
             }
         })
 
-        getBinding.errorButton.setOnClickListener { viewModel.loadData() }
+        binding.errorButton.setOnClickListener { viewModel.loadData() }
 
         viewModel.loadData()
 
-        getBinding.recyclerView.apply {
+        binding.recyclerView.apply {
             adapter = gifsAdapter
             setHasFixedSize(true)
             layoutManager = GridLayoutManager(context, 2)  // context??
         }
 
         viewModel.getObjectData().observe(viewLifecycleOwner) { uiState ->
-            getBinding.progressBar.isVisible = uiState is UIState.Loading
-            getBinding.textError.isVisible = uiState is UIState.Error
-            getBinding.errorButton.isVisible = uiState is UIState.Error
+            binding.progressBar.isVisible = uiState is UIState.Loading
+            binding.textError.isVisible = uiState is UIState.Error
+            binding.errorButton.isVisible = uiState is UIState.Error
             if (uiState is UIState.Success) {
                 gifsAdapter.updateGifs(uiState.gifs)
             } else if (uiState is UIState.Error) {
-                getBinding.textError.text = uiState.error?.message
+                binding.textError.text = uiState.error?.message
             }
         }
-        return getBinding.root
+        return binding.root
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        binding = null
+        _binding = null
     }
 }

@@ -9,9 +9,6 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.example.giphyservice.databinding.FragmentDetailBinding
 
-private const val URL_KEY = "url"
-const val DetailFragment_NAME = "DetailFragment"
-
 class DetailFragment : Fragment() {
 
     private var _binding: FragmentDetailBinding? = null
@@ -25,11 +22,6 @@ class DetailFragment : Fragment() {
 
         val url = arguments?.getString(URL_KEY)
         Glide.with(this@DetailFragment).load(url).into(binding.fragmentImageView)
-
-        /*        setFragmentResultListener("requestKey") { requestKey, bundle ->
-                    val url = bundle.getString("url")
-                    Glide.with(this@DetailFragment).load(url).into(getBinding.fragmentImageView)
-                }*/
         return binding.root
     }
 
@@ -39,6 +31,9 @@ class DetailFragment : Fragment() {
     }
 
     companion object {
+        private const val URL_KEY = "url"
+        const val DetailFragment_NAME = "DetailFragment"
+
         fun newInstance(url: String) = DetailFragment().apply {
             arguments = bundleOf(URL_KEY to url)
         }

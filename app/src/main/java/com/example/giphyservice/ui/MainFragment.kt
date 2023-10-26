@@ -14,6 +14,7 @@ import com.example.giphyservice.data.model.Gif
 import com.example.giphyservice.databinding.FragmentMainBinding
 import com.example.giphyservice.ui.list.GifsAdapter
 
+//the View observes changes in the ViewModel and updates its state accordingly
 class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
@@ -32,14 +33,11 @@ class MainFragment : Fragment() {
 
         val gifsAdapter = GifsAdapter(mListener = object : GifsAdapter.OnItemClickListener {
             override fun onItemClick(gif: Gif) {
-                //fragment result is used for another cases:
-                //For example you want to open second fragment, perform some actions there and then return the result. In such cases fragment results is used.
-                //setFragmentResult("requestKey", bundleOf("url" to gif.images.originalImage.url))
                 val detailFragment = DetailFragment.newInstance(gif.images.originalImage.url)
                 parentFragmentManager.commit {
                     setReorderingAllowed(true)
                     replace(R.id.fragmentContainerView, detailFragment)
-                    addToBackStack(DetailFragment_NAME)
+                    addToBackStack(DetailFragment.DetailFragment_NAME)
                 }
             }
         })
@@ -49,7 +47,7 @@ class MainFragment : Fragment() {
         binding.recyclerView.apply {
             adapter = gifsAdapter
             setHasFixedSize(true)
-            layoutManager = GridLayoutManager(context, 2)  // context??
+            layoutManager = GridLayoutManager(context, 2)
         }
 
         viewModel.getObjectData().observe(viewLifecycleOwner) { uiState ->

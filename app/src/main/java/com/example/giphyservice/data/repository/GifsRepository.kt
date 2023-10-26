@@ -2,12 +2,13 @@ package com.example.giphyservice.data.repository
 
 import com.example.giphyservice.data.GifService
 import com.example.giphyservice.data.model.DataResult
-import com.example.giphyservice.ui.BASE_URL
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
+const val BASE_URL = "https://api.giphy.com/v1/"
 
 class GifsRepository {
     private val retrofit =

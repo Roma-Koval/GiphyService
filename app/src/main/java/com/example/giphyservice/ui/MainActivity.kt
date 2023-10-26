@@ -4,9 +4,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.example.giphyservice.databinding.ActivityMainBinding
 
-const val BASE_URL = "https://api.giphy.com/v1/"
-
-//the View observes changes in the ViewModel and updates its state accordingly
 class MainActivity : AppCompatActivity() {
 
     private lateinit var mainBinding: ActivityMainBinding
@@ -15,62 +12,5 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         mainBinding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(mainBinding.root)
-
-//        if (savedInstanceState == null) {
-//            supportFragmentManager.commit {
-//                setReorderingAllowed(true)
-//                replace<DetailFragment>(mainBinding.fragmentContainerView.id)
-//                addToBackStack("DetailFragment")
-//            }
-//        }
-
-//        val viewModel: MainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
-
-/*        val gifsAdapter = GifsAdapter(mListener = object : GifsAdapter.OnItemClickListener {
-            override fun onItemClick(gif: Gif) {
-//                SecondActivity.start(this@MainActivity, gif.images.originalImage.url)
-                val bundle = bundleOf("url" to gif.images.originalImage.url)
-                if (savedInstanceState == null) {
-                    supportFragmentManager.commit {
-                        setReorderingAllowed(true)
-                        add<DetailFragment>(mainBinding.fragmentContainerView.id, args = bundle)
-                        addToBackStack(null)
-                    }
-                }
-            }
-        })*/
-
-/*        mainBinding.errorButton.setOnClickListener { viewModel.loadData() }
-
-        viewModel.loadData()
-
-//        TODO: add binding for recyclerView
-        findViewById<RecyclerView>(R.id.recyclerView).apply {
-            adapter = gifsAdapter
-            setHasFixedSize(true)
-            layoutManager = GridLayoutManager(this@MainActivity, 2)
-        }
-
-        viewModel.getObjectData().observe(this) { uiState ->
-            mainBinding.progressBar.isVisible = uiState is UIState.Loading
-            mainBinding.textError.isVisible = uiState is UIState.Error
-            mainBinding.errorButton.isVisible = uiState is UIState.Error
-            if (uiState is UIState.Success) {
-                gifsAdapter.updateGifs(uiState.gifs)
-            } else if (uiState is UIState.Error) {
-                mainBinding.textError.text = uiState.error?.message
-            }
-        }*/
-
-        /*        viewModel.getError().observe(this) { error ->
-                    textView.text = error?.message
-                    textView.isVisible = true
-                    errorButton.isVisible = true
-                }
-
-                viewModel.getIsLoading().observe(this) { isLoading ->
-                    progressBar.isVisible = isLoading
-                    textView.isVisible = false
-                }*/
     }
 }

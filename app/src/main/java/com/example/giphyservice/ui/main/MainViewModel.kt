@@ -1,4 +1,4 @@
-package com.example.giphyservice.ui
+package com.example.giphyservice.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

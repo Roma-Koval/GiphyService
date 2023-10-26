@@ -1,4 +1,4 @@
-package com.example.giphyservice.ui.list
+package com.example.giphyservice.ui.main.list
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

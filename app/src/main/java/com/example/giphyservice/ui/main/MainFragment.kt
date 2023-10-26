@@ -1,4 +1,4 @@
-package com.example.giphyservice.ui
+package com.example.giphyservice.ui.main
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +12,8 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.giphyservice.R
 import com.example.giphyservice.data.model.Gif
 import com.example.giphyservice.databinding.FragmentMainBinding
-import com.example.giphyservice.ui.list.GifsAdapter
+import com.example.giphyservice.ui.details.DetailFragment
+import com.example.giphyservice.ui.main.list.GifsAdapter
 
 //the View observes changes in the ViewModel and updates its state accordingly
 class MainFragment : Fragment() {

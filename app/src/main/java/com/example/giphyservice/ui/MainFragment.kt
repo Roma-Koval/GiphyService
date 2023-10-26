@@ -22,9 +22,12 @@ class MainFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-
         _binding = FragmentMainBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         val viewModel: MainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
 
         val gifsAdapter = GifsAdapter(mListener = object : GifsAdapter.OnItemClickListener {
@@ -36,14 +39,12 @@ class MainFragment : Fragment() {
                 parentFragmentManager.commit {
                     setReorderingAllowed(true)
                     replace(R.id.fragmentContainerView, detailFragment)
-                    addToBackStack("DetailFragment")
+                    addToBackStack(DetailFragment_NAME)
                 }
             }
         })
 
         binding.errorButton.setOnClickListener { viewModel.loadData() }
-
-        viewModel.loadData()
 
         binding.recyclerView.apply {
             adapter = gifsAdapter
@@ -61,7 +62,6 @@ class MainFragment : Fragment() {
                 binding.textError.text = uiState.error?.message
             }
         }
-        return binding.root
     }
 
     override fun onDestroy() {

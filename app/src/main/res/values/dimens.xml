@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="textView_marginHorizontal">24dp</dimen>
+    <dimen name="button_marginTop">24dp</dimen>
+    <dimen name="textView_width">0dp</dimen>
+</resources>

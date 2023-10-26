@@ -1,38 +1,38 @@
 package com.example.giphyservice.ui
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.giphyservice.data.model.Gif
+import com.example.giphyservice.data.repository.GifCallback
 import com.example.giphyservice.data.repository.GifsRepository
 
-//The ViewModel retrieves data from the Model and exposes it to the View through observable properties or LiveData objects.
+// The ViewModel retrieves data from the Model and exposes it to the View through observable properties or LiveData objects.
 // It also communicates with the Model to update data based on user actions
-
+//
+// The ViewModel exists from when you first request a ViewModel until the activity is finished and destroyed.
 class MainViewModel : ViewModel() {
-    var objectData = MutableLiveData<List<Gif>>()
+
     private val gifsRepository = GifsRepository()
-/*    val retrofit = Retrofit.Builder().baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-    val gifService = retrofit.create(GifService::class.java)*/
+
+    private val state = MutableLiveData<UIState>()
+    fun getObjectData(): LiveData<UIState> = state
+
+    init {
+        loadData()
+    }
 
     fun loadData() {
-        objectData = gifsRepository.getGifsData(objectData)
-      /*  gifService
-            .getGifs()
-            .enqueue(object : Callback<DataResult?> {
-                override fun onResponse(call: Call<DataResult?>, response: Response<DataResult?>) {
-                    val body = response.body()
-                    if (body == null) {
-                        Log.d(TAG, "No response")
-                    } else {
-                        objectData.value = body.res
-                    }
-                }
+        state.value = UIState.Loading
 
-                override fun onFailure(call: Call<DataResult?>, t: Throwable) {
-                    TODO("Not yet implemented")
-                }
-            })*/
+        gifsRepository.getGifsData(object : GifCallback {
+            override fun onSuccess(gifs: List<Gif>) {
+                state.value = UIState.Success(gifs)
+            }
+
+            override fun onError(error: Throwable?) {
+                state.value = UIState.Error(error)
+            }
+        })
     }
 }

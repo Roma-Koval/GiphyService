@@ -11,9 +11,9 @@ import com.example.giphyservice.data.repository.GifsRepository
 // It also communicates with the Model to update data based on user actions
 //
 // The ViewModel exists from when you first request a ViewModel until the activity is finished and destroyed.
-class MainViewModel : ViewModel() {
+class MainViewModel(private val gifsRepository: GifsRepository) : ViewModel() {
 
-    private val gifsRepository = GifsRepository()
+//    private val gifsRepository = GifsRepository()
 
     private val state = MutableLiveData<UIState>()
     fun getObjectData(): LiveData<UIState> = state

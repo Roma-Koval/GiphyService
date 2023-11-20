@@ -7,14 +7,16 @@ import retrofit2.Callback
 import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
 const val BASE_URL = "https://api.giphy.com/v1/"
 
-class GifsRepository {
-    private val retrofit =
-        Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
-            .build()
-    private val gifService: GifService = retrofit.create(GifService::class.java)
+//@Inject tells Dagger how to create instances of GifsRepository
+class GifsRepository @Inject constructor(private val gifService: GifService) {
+//    private val retrofit =
+//        Retrofit.Builder().baseUrl(BASE_URL).addConverterFactory(GsonConverterFactory.create())
+//            .build()
+//    private val gifService: GifService = retrofit.create(GifService::class.java)
 
     fun getGifsData(gifCallback: GifCallback) {
         gifService.getGifs().enqueue(object : Callback<DataResult?> {

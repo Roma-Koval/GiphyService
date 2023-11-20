@@ -9,17 +9,23 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.commit
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.giphyservice.App
 import com.example.giphyservice.R
 import com.example.giphyservice.data.model.Gif
 import com.example.giphyservice.databinding.FragmentMainBinding
 import com.example.giphyservice.ui.details.DetailFragment
 import com.example.giphyservice.ui.main.list.GifsAdapter
+import javax.inject.Inject
 
 //the View observes changes in the ViewModel and updates its state accordingly
 class MainFragment : Fragment() {
 
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
+
+    //Dagger  provide an instance of MainViewModelFactory from the graph
+    @Inject
+    lateinit var mainViewModelFactory: MainViewModelFactory
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -30,7 +36,12 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val viewModel: MainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
+
+        //check the file for any of the @Inject property and inject
+        //the correct object to them. Here it is mainViewModelFactory
+        (activity?.application as App).appComponent.inject(this)
+
+        val viewModel: MainViewModel = ViewModelProvider(this, mainViewModelFactory)[MainViewModel::class.java]
 
         val gifsAdapter = GifsAdapter(mListener = object : GifsAdapter.OnItemClickListener {
             override fun onItemClick(gif: Gif) {

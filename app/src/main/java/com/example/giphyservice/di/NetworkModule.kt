@@ -1,11 +1,12 @@
 package com.example.giphyservice.di
 
 import com.example.giphyservice.data.GifService
-import com.example.giphyservice.data.repository.BASE_URL
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+
+const val BASE_URL = "https://api.giphy.com/v1/"
 
 @Module
 class NetworkModule {

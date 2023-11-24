@@ -1,4 +1,4 @@
-package com.example.giphyservice.ui.list
+package com.example.giphyservice.ui.main.list
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide

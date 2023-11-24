@@ -1,4 +1,4 @@
-package com.example.giphyservice.ui
+package com.example.giphyservice.ui.main
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -11,9 +11,7 @@ import com.example.giphyservice.data.repository.GifsRepository
 // It also communicates with the Model to update data based on user actions
 //
 // The ViewModel exists from when you first request a ViewModel until the activity is finished and destroyed.
-class MainViewModel : ViewModel() {
-
-    private val gifsRepository = GifsRepository()
+class MainViewModel(private val gifsRepository: GifsRepository) : ViewModel() {
 
     private val state = MutableLiveData<UIState>()
     fun getObjectData(): LiveData<UIState> = state

@@ -1,6 +1,7 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id ("kotlin-kapt")
 }
 
 android {
@@ -60,4 +61,8 @@ dependencies {
     //Glide
      implementation ("com.github.bumptech.glide:glide:4.12.0")
      annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
+
+    //Dagger
+    implementation ("com.google.dagger:dagger:2.48.1")
+    kapt ("com.google.dagger:dagger-compiler:2.48.1")
 }

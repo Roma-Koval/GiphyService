@@ -1,4 +1,4 @@
-package com.example.giphyservice.ui
+package com.example.giphyservice.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity

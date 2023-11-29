@@ -3,9 +3,13 @@ package com.example.giphyservice.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.giphyservice.data.model.Gif
-import com.example.giphyservice.data.repository.GifCallback
 import com.example.giphyservice.data.repository.GifsRepository
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 // The ViewModel retrieves data from the Model and exposes it to the View through observable properties or LiveData objects.
 // It also communicates with the Model to update data based on user actions
@@ -16,6 +20,11 @@ class MainViewModel(private val gifsRepository: GifsRepository) : ViewModel() {
     private val state = MutableLiveData<UIState>()
     fun getObjectData(): LiveData<UIState> = state
 
+    private var job: Job? = null
+    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
+        onError(throwable)
+    }
+
     init {
         loadData()
     }
@@ -23,14 +32,29 @@ class MainViewModel(private val gifsRepository: GifsRepository) : ViewModel() {
     fun loadData() {
         state.value = UIState.Loading
 
-        gifsRepository.getGifsData(object : GifCallback {
-            override fun onSuccess(gifs: List<Gif>) {
-                state.value = UIState.Success(gifs)
+        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
+            val response = gifsRepository.getGifsData()
+            withContext(Dispatchers.Main) {
+                val body = response.body()
+                if (response.isSuccessful) {
+                    if (body == null) {
+                        state.value = UIState.Success(listOf())
+                    } else {
+                        state.value = UIState.Success(body.res)
+                    }
+                } else {
+                    onError(null)
+                }
             }
+        }
+    }
 
-            override fun onError(error: Throwable?) {
-                state.value = UIState.Error(error)
-            }
-        })
+    private fun onError(message: Throwable?) {
+        state.postValue(UIState.Error(message))
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        job?.cancel()
     }
 }

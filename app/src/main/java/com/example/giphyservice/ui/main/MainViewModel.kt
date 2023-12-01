@@ -3,11 +3,10 @@ package com.example.giphyservice.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.giphyservice.data.repository.GifsRepository
-import kotlinx.coroutines.CoroutineExceptionHandler
-import kotlinx.coroutines.CoroutineScope
+import com.example.giphyservice.data.repository.GifsRepositoryResult
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
@@ -20,11 +19,6 @@ class MainViewModel(private val gifsRepository: GifsRepository) : ViewModel() {
     private val state = MutableLiveData<UIState>()
     fun getObjectData(): LiveData<UIState> = state
 
-    private var job: Job? = null
-    private val exceptionHandler = CoroutineExceptionHandler { _, throwable ->
-        onError(throwable)
-    }
-
     init {
         loadData()
     }
@@ -32,29 +26,22 @@ class MainViewModel(private val gifsRepository: GifsRepository) : ViewModel() {
     fun loadData() {
         state.value = UIState.Loading
 
-        job = CoroutineScope(Dispatchers.IO + exceptionHandler).launch {
-            val response = gifsRepository.getGifsData()
-            withContext(Dispatchers.Main) {
-                val body = response.body()
-                if (response.isSuccessful) {
-                    if (body == null) {
-                        state.value = UIState.Success(listOf())
-                    } else {
-                        state.value = UIState.Success(body.res)
-                    }
-                } else {
-                    onError(null)
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val result = gifsRepository.getGifsData()
+                withContext(Dispatchers.Main) {
+                    state.value = mapRepositoryToUIState(result)
                 }
+            } catch (ex: Exception) {
+                state.postValue(UIState.Error(ex))
             }
         }
     }
 
-    private fun onError(message: Throwable?) {
-        state.postValue(UIState.Error(message))
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        job?.cancel()
+    private fun mapRepositoryToUIState(repositoryResult: GifsRepositoryResult) : UIState {
+       return when (repositoryResult) {
+            is GifsRepositoryResult.Success -> UIState.Success(repositoryResult.dataResult.res)
+            is GifsRepositoryResult.Error -> UIState.Error(repositoryResult.error)
+        }
     }
 }

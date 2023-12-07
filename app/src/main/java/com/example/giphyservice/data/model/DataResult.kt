@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class DataResult<T>(
     @SerializedName("data")
-    val res: List<Gif>
+    val res: List<T>
 )

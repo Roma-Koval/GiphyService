@@ -1,11 +1,9 @@
 package com.example.giphyservice.ui.main
 
-import com.example.giphyservice.data.model.Gif
+sealed class UIState<out T : Any> {
+    class Success<T : Any>(val gifs: List<T>) : UIState<T>()
 
-sealed class UIState {
-    class Success(val gifs: List<Gif>) : UIState()
+    data object Loading : UIState<Nothing>()
 
-    data object Loading : UIState()
-
-    class Error(val error: Throwable?) : UIState()
+    class Error(val error: Throwable?) : UIState<Nothing>()
 }

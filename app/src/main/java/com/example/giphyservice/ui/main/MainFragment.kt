@@ -66,7 +66,7 @@ class MainFragment : Fragment() {
             binding.progressBar.isVisible = uiState is UIState.Loading
             binding.textError.isVisible = uiState is UIState.Error
             binding.errorButton.isVisible = uiState is UIState.Error
-            if (uiState is UIState.Success) {
+            if (uiState is UIState.Success<Gif>) {
                 gifsAdapter.updateGifs(uiState.gifs)
             } else if (uiState is UIState.Error) {
                 binding.textError.text = uiState.error?.message

@@ -3,9 +3,10 @@ package com.example.giphyservice.ui.main
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.giphyservice.data.model.Gif
-import com.example.giphyservice.data.repository.GifCallback
 import com.example.giphyservice.data.repository.GifsRepository
+import kotlinx.coroutines.launch
 
 // The ViewModel retrieves data from the Model and exposes it to the View through observable properties or LiveData objects.
 // It also communicates with the Model to update data based on user actions
@@ -13,8 +14,8 @@ import com.example.giphyservice.data.repository.GifsRepository
 // The ViewModel exists from when you first request a ViewModel until the activity is finished and destroyed.
 class MainViewModel(private val gifsRepository: GifsRepository) : ViewModel() {
 
-    private val state = MutableLiveData<UIState>()
-    fun getObjectData(): LiveData<UIState> = state
+    private val state = MutableLiveData<UIState<Gif>>()
+    fun getObjectData(): LiveData<UIState<Gif>> = state
 
     init {
         loadData()
@@ -23,14 +24,8 @@ class MainViewModel(private val gifsRepository: GifsRepository) : ViewModel() {
     fun loadData() {
         state.value = UIState.Loading
 
-        gifsRepository.getGifsData(object : GifCallback {
-            override fun onSuccess(gifs: List<Gif>) {
-                state.value = UIState.Success(gifs)
-            }
-
-            override fun onError(error: Throwable?) {
-                state.value = UIState.Error(error)
-            }
-        })
+        viewModelScope.launch {
+            state.value = gifsRepository.getGifsData().mapRepositoryToUIState()
+        }
     }
 }

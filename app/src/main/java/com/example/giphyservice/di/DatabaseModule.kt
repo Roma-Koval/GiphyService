@@ -8,7 +8,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class DatabaseModule {
+class DatabaseModule(context: Context) {
     @Singleton
     @Provides
     fun provideGifDB(context: Context): GifDatabase {

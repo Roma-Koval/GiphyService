@@ -4,10 +4,10 @@ import com.example.giphyservice.data.GifService
 import com.example.giphyservice.data.model.Gif
 import com.example.giphyservice.data.room.database.GifDatabase
 import com.example.giphyservice.data.room.entities.GifEntity
-import javax.inject.Inject
 
-class GifsDBRepository @Inject constructor(
-    private val gifService: GifService, private val gifDatabase: GifDatabase
+class GifsDBRepository(
+    private val gifService: GifService,
+    private val gifDatabase: GifDatabase
 ) : GifsRepository {
 
     override suspend fun getGifsData(): RepositoryResult<Gif> {

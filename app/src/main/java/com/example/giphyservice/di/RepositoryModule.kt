@@ -16,7 +16,8 @@ class RepositoryModule {
 //    }
 
     @Provides
-    fun provideDBRepository(gifService: GifService, database: GifDatabase) : GifsRepository {
-        return GifsDBRepository(gifService, database)
-    }
+    fun provideDBRepository(
+        gifService: GifService,
+        database: GifDatabase
+    ): GifsRepository = GifsDBRepository(gifService, database)
 }

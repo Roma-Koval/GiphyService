@@ -1,11 +1,13 @@
 package com.example.giphyservice.di
 
+import android.app.Application
 import android.content.Context
 import dagger.Module
 import dagger.Provides
 
 @Module
-class AppModule(private val context: Context) {
+class AppModule(private val application: Application) {
+
     @Provides
-    fun providesContext() = context
+    fun providesContext(): Context = application.applicationContext
 }

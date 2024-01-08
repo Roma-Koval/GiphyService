@@ -8,10 +8,15 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class DatabaseModule(context: Context) {
+class DatabaseModule {
+
     @Singleton
     @Provides
-    fun provideGifDB(context: Context): GifDatabase {
-        return Room.databaseBuilder(context, GifDatabase::class.java, "GifsDataBase").build()
-    }
+    fun provideGifDB(
+        context: Context
+    ): GifDatabase = Room.databaseBuilder(
+        context = context,
+        klass = GifDatabase::class.java,
+        name = "GifsDataBase"
+    ).build()
 }

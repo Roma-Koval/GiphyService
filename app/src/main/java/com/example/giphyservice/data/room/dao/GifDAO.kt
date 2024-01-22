@@ -13,4 +13,7 @@ interface GifDAO {
 
     @Query("SELECT * FROM gifs_table")
     suspend fun getGifsFromDB(): List<GifEntity>
+
+    @Query("DELETE FROM gifs_table")
+    suspend fun deleteAll()
 }

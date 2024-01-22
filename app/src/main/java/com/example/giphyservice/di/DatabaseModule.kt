@@ -2,6 +2,7 @@ package com.example.giphyservice.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.giphyservice.data.room.converters.Converters
 import com.example.giphyservice.data.room.database.GifDatabase
 import dagger.Module
 import dagger.Provides
@@ -18,5 +19,6 @@ class DatabaseModule {
         context = context,
         klass = GifDatabase::class.java,
         name = "GifsDataBase"
-    ).build()
+    ).addTypeConverter(Converters())
+        .build()
 }

@@ -1,6 +1,7 @@
 package com.example.giphyservice.di
 
 import com.example.giphyservice.data.GifService
+import com.example.giphyservice.data.repository.GifsCombinedRepository
 import com.example.giphyservice.data.repository.GifsDBRepository
 import com.example.giphyservice.data.repository.GifsRepositoryImp
 import com.example.giphyservice.data.repository.GifsRepository
@@ -15,9 +16,15 @@ class RepositoryModule {
 //        return GifsRepositoryImp(gifService)
 //    }
 
+//    @Provides
+//    fun provideDBRepository(
+//        gifService: GifService,
+//        database: GifDatabase
+//    ): GifsRepository = GifsDBRepository(gifService, database)
+
     @Provides
-    fun provideDBRepository(
-        gifService: GifService,
-        database: GifDatabase
-    ): GifsRepository = GifsDBRepository(gifService, database)
+    fun provideCombinedRepository(
+        remoteGifsRepository: GifsRepositoryImp,
+        localGifsRepository: GifsDBRepository
+    ) : GifsRepository = GifsCombinedRepository(remoteGifsRepository, localGifsRepository)
 }

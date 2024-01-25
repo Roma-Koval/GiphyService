@@ -2,8 +2,8 @@ package com.example.giphyservice.ui.main.list
 
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.giphyservice.data.model.Gif
 import com.example.giphyservice.databinding.ItemLayoutBinding
+import com.example.giphyservice.ui.Gif
 
 // ViewHolder - служить для оптимізації ресурсів і являється контейнером
 // для всіх елементів які входять в список
@@ -14,7 +14,7 @@ class GifViewHolder(
 ) : RecyclerView.ViewHolder(itemBinding.root) {
 
     fun bind(data: Gif) {
-        Glide.with(itemBinding.root.context).load(data.images.originalImage.url)
+        Glide.with(itemBinding.root.context).load(data.url)
             .into(itemBinding.ivGif)
         itemBinding.root.setOnClickListener {
             listener.onItemClick(data)

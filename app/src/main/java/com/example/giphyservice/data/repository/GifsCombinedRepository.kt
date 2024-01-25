@@ -1,30 +1,33 @@
 package com.example.giphyservice.data.repository
 
-import com.example.giphyservice.data.model.Gif
-import java.time.Duration
-import java.time.LocalDateTime
+import com.example.giphyservice.data.repository.RepositoryResult.Error
+import com.example.giphyservice.data.repository.RepositoryResult.Success
+import com.example.giphyservice.ui.Gif
 
 class GifsCombinedRepository(
-    private val remoteGifsRepository: GifsRepositoryImp,
-    private val localGifsRepository: GifsDBRepository
+    private val remote: RemoteGifsRepository,
+    private val local: LocalGifsRepository
 ) : GifsRepository {
 
-    override suspend fun getGifsData(): RepositoryResult<Gif> {
-        if (localGifsRepository.getAllGifs().isEmpty()) {
-            localGifsRepository.getAndSaveGifs()
-        }
-
-        val lastUpdate = localGifsRepository.getLastUpdate()
-
-        if (Duration.between(lastUpdate, LocalDateTime.now()) < Duration.ofDays(1)) {
-            return localGifsRepository.getGifsData()
-        } else {
-            val remoteResult = remoteGifsRepository.getGifsData()
-            if (remoteResult is RepositoryResult.Success) {
-                localGifsRepository.deleteGifs()
-                localGifsRepository.getAndSaveGifs()
+    override suspend fun getGifsData(): RepositoryResult<List<Gif>> {
+        return when (val result = local.getGifsData()) {
+            is Error -> loadRemote()
+            is Success -> {
+                if (result.dataResult.isEmpty()) {
+                    loadRemote()
+                } else {
+                    result
+                }
             }
         }
-        return localGifsRepository.getGifsData()
     }
+
+    private suspend fun loadRemote() =
+        when (val remoteResult = remote.getGifsData()) {
+            is Error -> remoteResult
+            is Success -> {
+                local.saveGifs(remoteResult.dataResult)
+                remoteResult
+            }
+        }
 }

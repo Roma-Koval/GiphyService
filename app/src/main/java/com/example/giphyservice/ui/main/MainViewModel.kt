@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.giphyservice.data.model.Gif
 import com.example.giphyservice.data.repository.GifsRepository
+import com.example.giphyservice.ui.Gif
 import kotlinx.coroutines.launch
 
 // The ViewModel retrieves data from the Model and exposes it to the View through observable properties or LiveData objects.
@@ -14,8 +14,8 @@ import kotlinx.coroutines.launch
 // The ViewModel exists from when you first request a ViewModel until the activity is finished and destroyed.
 class MainViewModel(private val gifsRepository: GifsRepository) : ViewModel() {
 
-    private val state = MutableLiveData<UIState<Gif>>()
-    fun getObjectData(): LiveData<UIState<Gif>> = state
+    private val state = MutableLiveData<UIState<List<Gif>>>()
+    fun getObjectData(): LiveData<UIState<List<Gif>>> = state
 
     init {
         loadData()

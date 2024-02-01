@@ -3,8 +3,8 @@ package com.example.giphyservice.ui.main.list
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.example.giphyservice.data.model.Gif
 import com.example.giphyservice.databinding.ItemLayoutBinding
+import com.example.giphyservice.ui.Gif
 
 // Adapter - оброблює дані і зв'язує зі списком
 //
@@ -12,7 +12,6 @@ class GifsAdapter(
     var mListener: OnItemClickListener,
 ) : RecyclerView.Adapter<GifViewHolder>() {
     private val gifs: MutableList<Gif> = mutableListOf()
-
     fun updateGifs(gif: List<Gif>) {
         gifs.clear()
         gifs.addAll(gif)

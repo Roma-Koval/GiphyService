@@ -1,7 +1,7 @@
 package com.example.giphyservice.ui.main
 
 sealed class UIState<out T : Any> {
-    class Success<T : Any>(val gifs: List<T>) : UIState<T>()
+    class Success<T : Any>(val data: T) : UIState<T>()
 
     data object Loading : UIState<Nothing>()
 

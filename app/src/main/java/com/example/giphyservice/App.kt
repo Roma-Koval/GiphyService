@@ -2,6 +2,7 @@ package com.example.giphyservice
 
 import android.app.Application
 import com.example.giphyservice.di.AppComponent
+import com.example.giphyservice.di.AppModule
 import com.example.giphyservice.di.DaggerAppComponent
 
 // appComponent lives in the Application class to share its lifecycle
@@ -11,6 +12,8 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
 
-        appComponent = DaggerAppComponent.create()
+        appComponent = DaggerAppComponent.builder()
+            .appModule(AppModule(this))
+            .build()
     }
 }

@@ -11,8 +11,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.giphyservice.App
 import com.example.giphyservice.R
-import com.example.giphyservice.data.model.Gif
 import com.example.giphyservice.databinding.FragmentMainBinding
+import com.example.giphyservice.ui.Gif
 import com.example.giphyservice.ui.details.DetailFragment
 import com.example.giphyservice.ui.main.list.GifsAdapter
 import javax.inject.Inject
@@ -45,7 +45,7 @@ class MainFragment : Fragment() {
 
         val gifsAdapter = GifsAdapter(mListener = object : GifsAdapter.OnItemClickListener {
             override fun onItemClick(gif: Gif) {
-                val detailFragment = DetailFragment.newInstance(gif.images.originalImage.url)
+                val detailFragment = DetailFragment.newInstance(gif.url)
                 parentFragmentManager.commit {
                     setReorderingAllowed(true)
                     replace(R.id.fragmentContainerView, detailFragment)
@@ -66,8 +66,8 @@ class MainFragment : Fragment() {
             binding.progressBar.isVisible = uiState is UIState.Loading
             binding.textError.isVisible = uiState is UIState.Error
             binding.errorButton.isVisible = uiState is UIState.Error
-            if (uiState is UIState.Success<Gif>) {
-                gifsAdapter.updateGifs(uiState.gifs)
+            if (uiState is UIState.Success<List<Gif>>) {
+                gifsAdapter.updateGifs(uiState.data)
             } else if (uiState is UIState.Error) {
                 binding.textError.text = uiState.error?.message
             }

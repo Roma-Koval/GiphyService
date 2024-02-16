@@ -1,0 +1,42 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="60dp"
+    android:height="39.67295dp"
+    android:viewportWidth="2794.7"
+    android:viewportHeight="1847.9">
+
+    <group
+        android:name="animationGroup"
+        android:pivotX="1397.35"
+        android:pivotY="923.95">
+
+        <path
+            android:fillColor="#FF000000"
+            android:fillType="evenOdd"
+            android:pathData="M208.8,718h305.1v411.9H208.8V718z" />
+        <path
+            android:fillColor="#04FF8E"
+            android:pathData="M147.8,702.7h61v442.5h-61V702.7z" />
+        <path
+            android:fillColor="#8E2EFF"
+            android:pathData="M513.9,824.8h61v320.4h-61V824.8z" />
+        <path
+            android:fillColor="#00C5FF"
+            android:pathData="M147.8,1129.9h427.2v61h-427.2V1129.9z" />
+        <path
+            android:fillColor="#FFF152"
+            android:pathData="M147.8,656.9h244.1v61H147.8V656.9z" />
+        <path
+            android:fillColor="#FF5B5B"
+            android:pathData="M513.9,779v-61h-61v-61h-61v183.1h183.1V779" />
+        <path
+            android:fillColor="#551C99"
+            android:pathData="M513.9,901.1v-61h61" />
+        <path
+            android:fillColor="#999131"
+            android:fillType="evenOdd"
+            android:pathData="M391.9,656.9v61h-61" />
+        <path
+            android:fillColor="#FF000000"
+            android:pathData="M1049.5,840c-30.5,-29 -67.1,-36.6 -94.6,-36.6c-67.1,0 -111.4,39.7 -111.4,122.1c0,53.4 27.5,119 111.4,119c21.4,0 56.5,-4.6 79.3,-21.4v-53.4H928.9v-91.5h202.9v184.6c-25.9,53.4 -97.7,80.9 -178.5,80.9c-163.3,0 -225.8,-109.8 -225.8,-218.2s71.7,-219.7 227.3,-219.7c58,0 108.3,12.2 163.3,67.1L1049.5,840zM1188.3,1133V718h115.9v415H1188.3zM1495,1020.1v111.4H1377.5V718h201.4c111.4,0 166.3,70.2 166.3,151.1c0,85.4 -54.9,151.1 -166.3,151.1H1495zM1495,920.9h83.9c32,0 48.8,-24.4 48.8,-50.3c0,-27.5 -16.8,-51.9 -48.8,-51.9h-83.9V920.9zM2054.9,1133V975.8H1905.4v157.1h-117.5V718h117.5v157.1h149.5V718h115.9v415H2054.9zM2424.1,859.9l90,-141.9h132.7v4.6l-164.8,244.1v164.8h-117.5V966.7l-157.1,-244.1v-4.6h132.7L2424.1,859.9z" />
+    </group>
+</vector>

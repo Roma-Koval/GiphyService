@@ -4,6 +4,8 @@ import com.example.giphyservice.data.GifService
 import com.example.giphyservice.data.model.GifModel
 import com.example.giphyservice.ui.Gif
 
+const val DEFAULT_ICON = "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png"
+
 //@Inject tells Dagger how to create instances of GifsRepository
 class RemoteGifsRepository(private val gifService: GifService) : GifsRepository {
 
@@ -16,10 +18,19 @@ class RemoteGifsRepository(private val gifService: GifService) : GifsRepository 
                     it.mapToGif()
                 })
             },
-            onFailure = { RepositoryResult.Error(it) })
+            onFailure = {
+                RepositoryResult.Error(it)
+            })
     }
 }
 
 fun GifModel.mapToGif(): Gif {
-    return Gif(this.images.originalImage.url)
+    return Gif(
+        images.originalImage.url,
+        title,
+        userInfo?.name ?: "name",
+        userInfo?.username ?: "username",
+        userInfo?.avatarUrl ?: DEFAULT_ICON,
+        userInfo?.isVerified ?: false
+    )
 }

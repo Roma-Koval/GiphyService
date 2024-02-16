@@ -42,9 +42,24 @@ class LocalGifsRepository(private val gifDAO: GifDAO) : GifsRepository {
 }
 
 fun GifEntity.mapTo(): Gif {
-    return Gif(gifUrl)
+    return Gif(
+        gifUrl,
+        title,
+        name,
+        username,
+        avatarUrl,
+        isVerified
+    )
 }
 
 fun Gif.mapFrom(): GifEntity {
-    return GifEntity(gifUrl = this.url, lastUpdate = LocalDateTime.now())
+    return GifEntity(
+        gifUrl = url,
+        lastUpdate = LocalDateTime.now(),
+        title = title,
+        name = name,
+        username = username,
+        avatarUrl = avatarUrl,
+        isVerified = isVerified
+    )
 }

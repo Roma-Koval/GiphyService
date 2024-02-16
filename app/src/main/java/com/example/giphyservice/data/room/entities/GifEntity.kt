@@ -9,5 +9,10 @@ data class GifEntity(
         @PrimaryKey(autoGenerate = true)
         val id: Int = 0,
         val gifUrl: String,
-        val lastUpdate: LocalDateTime
+        val lastUpdate: LocalDateTime,
+        val title: String,
+        val name: String,
+        val username: String,
+        val avatarUrl: String,
+        val isVerified: Boolean
 )

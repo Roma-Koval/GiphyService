@@ -2,4 +2,5 @@
     <string name="app_name">Giphy Service</string>
     <string name="tools_Text_in_TextView">tools text in the TextView</string>
     <string name="try_again_button">Try again</string>
+    <string name="share_button">share</string>
 </resources>

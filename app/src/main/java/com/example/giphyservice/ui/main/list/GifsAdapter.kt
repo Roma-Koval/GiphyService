@@ -9,9 +9,11 @@ import com.example.giphyservice.ui.Gif
 // Adapter - оброблює дані і зв'язує зі списком
 //
 class GifsAdapter(
-    var mListener: OnItemClickListener,
+    var mListener: OnItemClickListener
 ) : RecyclerView.Adapter<GifViewHolder>() {
+
     private val gifs: MutableList<Gif> = mutableListOf()
+
     fun updateGifs(gif: List<Gif>) {
         gifs.clear()
         gifs.addAll(gif)

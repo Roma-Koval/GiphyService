@@ -45,7 +45,14 @@ class MainFragment : Fragment() {
 
         val gifsAdapter = GifsAdapter(mListener = object : GifsAdapter.OnItemClickListener {
             override fun onItemClick(gif: Gif) {
-                val detailFragment = DetailFragment.newInstance(gif.url)
+                val detailFragment = DetailFragment.newInstance(
+                    gif.url,
+                    gif.title,
+                    gif.name,
+                    gif.username,
+                    gif.avatarUrl,
+                    gif.isVerified
+                )
                 parentFragmentManager.commit {
                     setReorderingAllowed(true)
                     replace(R.id.fragmentContainerView, detailFragment)
